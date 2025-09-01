@@ -3,176 +3,857 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoodInjector for you</title>
+    <title>Legion.dev | Доминация</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #6c2bd9;
+            --primary-dark: #4a1d99;
+            --secondary: #ff3860;
+            --dark: #121212;
+            --light: #f4f4f4;
+            --gray: #2a2a2a;
+            --text: #e1e1e1;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            min-height: 100vh;
+            background-color: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Навигация */
+        nav {
+            background-color: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-container {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            padding: 40px 20px;
-            color: white;
         }
         
-        header {
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .tab {
+            cursor: pointer;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        .tab:hover::after, .tab.active::after {
+            width: 100%;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+        }
+        
+        /* Содержимое вкладок */
+        .tab-content {
+            display: none;
+            padding-top: 80px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Приветственная страница */
+        .hero {
             text-align: center;
-            margin-bottom: 40px;
+            padding: 6rem 0 4rem;
         }
         
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s infinite alternate;
         }
         
-        .subtitle {
-            font-size: 1.2rem;
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(108, 43, 217, 0.5); }
+            to { text-shadow: 0 0 20px rgba(108, 43, 217, 0.8), 0 0 30px rgba(108, 43, 217, 0.6); }
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
             opacity: 0.9;
         }
         
-        .gallery {
+        .cta-buttons {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            max-width: 1200px;
-            margin-bottom: 40px;
+            gap: 1.5rem;
+            margin-bottom: 5rem;
         }
         
-        .photo-container {
-            position: relative;
-            width: 300px;
-            height: 400px;
-            overflow: hidden;
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 43, 217, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 43, 217, 0.5);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(108, 43, 217, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Преимущества */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem 0 5rem;
+        }
+        
+        .feature {
+            background: rgba(42, 42, 42, 0.5);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-        }
-        
-        .photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .photo-container:hover .photo {
-            transform: scale(0.9);
-        }
-        
-        .overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 15px;
+            padding: 2rem;
             text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .photo-container:hover .overlay {
-            opacity: 1;
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(108, 43, 217, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(108, 43, 217, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 43, 217, 0); }
+        }
+        
+        .feature-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+        
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .feature p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        /* Страница продуктов */
+        .products {
+            padding: 3rem 0;
+        }
+        
+        .product-card {
+            background: rgba(42, 42, 42, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .product-title {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 200, 83, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #00c853;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .product-info {
+            margin-bottom: 2rem;
+        }
+        
+        .price-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .price-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .price-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .price-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .systems {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+        
+        /* API секция */
+        .api-section {
+            margin-top: 3rem;
+        }
+        
+        .api-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .api-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .api-card {
+            background: rgba(42, 42, 42, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .api-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .api-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .api-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .api-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .api-info {
+            margin-bottom: 1.5rem;
+        }
+        
+        .api-info div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .api-focus {
+            background: rgba(108, 43, 217, 0.2);
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .key-system {
+            background: rgba(255, 56, 96, 0.2);
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .key-system a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .key-system a:hover {
+            color: white;
+            text-decoration: underline;
         }
         
         .download-btn {
-            background: #4CAF50;
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
             color: white;
-            border: none;
-            padding: 10px 20px;
+            text-decoration: none;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-            transition: background 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
         }
         
         .download-btn:hover {
-            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 43, 217, 0.4);
         }
         
-        footer {
-            margin-top: 30px;
-            text-align: center;
+        .warning {
+            background: rgba(255, 193, 7, 0.2);
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-top: 1rem;
             font-size: 0.9rem;
-            opacity: 0.8;
+            border-left: 3px solid #ffc107;
+        }
+
+        /* Контакты */
+        .contact-section {
+            text-align: center;
+            padding: 4rem 0;
         }
         
+        .discord-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(88, 101, 242, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(88, 101, 242, 0.5);
+        }
+        
+        .discord-link:hover {
+            background: rgba(88, 101, 242, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+        }
+        
+        /* Статусы API */
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .status-red {
+            background: rgba(244, 67, 54, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+        }
+        
+        .status-yellow {
+            background: rgba(255, 193, 7, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+        }
+        
+        .status-green {
+            background: rgba(76, 175, 80, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+        }
+        
+        /* Адаптивность */
         @media (max-width: 768px) {
-            .gallery {
-                gap: 20px;
+            .hero h1 {
+                font-size: 2.5rem;
             }
             
-            .photo-container {
-                width: 100%;
-                max-width: 300px;
-                height: 350px;
+            .hero p {
+                font-size: 1.2rem;
             }
             
-            h1 {
-                font-size: 2rem;
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
             }
+            
+            .tabs {
+                gap: 1rem;
+            }
+            
+            .product-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+        
+        /* Анимации появления при скролле */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>GoodInjector for you</h1>
-        <p class="subtitle">Лучшие фотографии для вашего вдохновения</p>
-    </header>
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">Legion.dev</div>
+            <div class="tabs">
+                <div class="tab active" data-tab="welcome">Главная</div>
+                <div class="tab" data-tab="products">Продукты</div>
+                <div class="tab" data-tab="api">API</div>
+                <div class="tab" data-tab="contact">Контакты</div>
+            </div>
+        </div>
+    </nav>
     
-    <div class="gallery">
-        <div class="photo-container">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Горный пейзаж" class="photo">
-            <div class="overlay">
-                <p>Красивый горный пейзаж</p>
-                <button class="download-btn" onclick="downloadImage('https://images.unsplash.com/photo-1506744038136-46273834b3fb', 'mountain.jpg')">Скачать</button>
-            </div>
+    <div class="container">
+        <!-- Приветственная вкладка -->
+        <div class="tab-content active" id="welcome">
+            <section class="hero">
+                <h1>Welcome to legion.dev</h1>
+                <p>Доминация.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary">Buy product</button>
+                    <button class="btn btn-secondary">Get API</button>
+                </div>
+            </section>
+            
+            <section class="features">
+                <div class="feature reveal">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Лучшие обходы</h3>
+                    <p>Наши решения обеспечивают максимальную эффективность и надежность обхода защитных систем.</p>
+                </div>
+                
+                <div class="feature reveal">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M17.66 8L12 2.35 6.34 8C4.78 9.56 4 11.64 4 13.64s.78 4.11 2.34 5.67 3.61 2.35 5.66 2.35 4.1-.79 5.66-2.35S20 15.64 20 13.64 19.22 9.56 17.66 8z"/>
+                            <path d="M12 18c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" fill="white"/>
+                        </svg>
+                    </div>
+                    <h3>Обновление каждый день</h3>
+                    <p>Мы ежедневно улучшаем наши продукты, чтобы обеспечить их актуальность и максимальную эффективность.</p>
+                </div>
+                
+                <div class="feature reveal">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                        </svg>
+                    </div>
+                    <h3>Безопасно</h3>
+                    <p>Наши решения проходят тщательную проверку на безопасность, чтобы защитить ваши данные и обеспечить анонимность.</p>
+                </div>
+            </section>
         </div>
         
-        <div class="photo-container">
-            <img src="https://images.unsplash.com/photo-1475924156734-496f6cac6ec1" alt="Пляж" class="photo">
-            <div class="overlay">
-                <p>Тропический пляж</p>
-                <button class="download-btn" onclick="downloadImage('https://images.unsplash.com/photo-1475924156734-496f6cac6ec1', 'beach.jpg')">Скачать</button>
-            </div>
+        <!-- Вкладка продуктов -->
+        <div class="tab-content" id="products">
+            <section class="products">
+                <div class="product-card reveal">
+                    <div class="product-header">
+                        <h2 class="product-title">Internal rust</h2>
+                        <div class="status">
+                            <div class="status-dot"></div>
+                            <span>Status-🟢</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-info">
+                        <p>Мощный и надежный инструмент для ваших нужд с поддержкой современных систем.</p>
+                    </div>
+                    
+                    <div class="price-cards">
+                        <div class="price-card">
+                            <h4>Неделя</h4>
+                            <div class="price">3599₽</div>
+                            <div class="price">$37.99</div>
+                        </div>
+                        
+                        <div class="price-card">
+                            <h4>Месяц</h4>
+                            <div class="price">7499₽</div>
+                            <div class="price">$75.99</div>
+                        </div>
+                    </div>
+                    
+                    <div class="systems">
+                        <p>Поддерживаемые системы: Windows 10 | Windows 11</p>
+                    </div>
+                </div>
+            </section>
         </div>
         
-        <div class="photo-container">
-            <img src="https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5" alt="Лес" class="photo">
-            <div class="overlay">
-                <p>Таинственный лес</p>
-                <button class="download-btn" onclick="downloadImage('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5', 'forest.jpg')">Скачать</button>
-            </div>
+        <!-- Вкладка API -->
+        <div class="tab-content" id="api">
+            <section class="products">
+                <div class="product-card reveal">
+                    <h2 class="api-header">📦 Quorum API Versions</h2>
+                    <p style="text-align: center; margin-bottom: 2rem;">⚠️ <strong>Before using, read Tutorial.txt carefully!</strong></p>
+                    
+                    <div class="api-cards">
+                        <!-- Xeno Edition -->
+                        <div class="api-card reveal">
+                            <h3><i class="fas fa-shield-alt"></i> Xeno Edition</h3>
+                            <div class="api-status status-red">Status: 🔴</div>
+                            <div class="api-focus">Focus: Maximum Stability & Safety</div>
+                            <div class="api-info">
+                                <div><i class="fas fa-chart-bar"></i> <span><strong>UNC Rate:</strong> 89%</span></div>
+                                <div><i class="fas fa-chart-line"></i> <span><strong>sUNC Rate:</strong> 41%</span></div>
+                                <div><i class="fas fa-layer-group"></i> <span><strong>Level:</strong> 3</span></div>
+                                <div><i class="fas fa-key"></i> <span><strong>Key System:</strong> Not Required</span></div>
+                            </div>
+                            <a href="https://github.com/QuorumHub1/QAPIx/raw/refs/heads/main/QuorumAPI.rar" class="download-btn">Download</a>
+                        </div>
+                        
+                        <!-- Valex Edition -->
+                        <div class="api-card reveal">
+                            <h3><i class="fas fa-tachometer-alt"></i> Valex Edition</h3>
+                            <div class="api-status status-yellow">Status: 🟡 (Issues for some users)</div>
+                            <div class="api-focus">Focus: High Performance</div>
+                            <div class="api-info">
+                                <div><i class="fas fa-chart-bar"></i> <span><strong>UNC Rate:</strong> 94%</span></div>
+                                <div><i class="fas fa-chart-line"></i> <span><strong>sUNC Rate:</strong> 95%</span></div>
+                                <div><i class="fas fa-layer-group"></i> <span><strong>Level:</strong> 8</span></div>
+                                <div><i class="fas fa-key"></i> <span><strong>Key System:</strong> Required (Not Custom)</span></div>
+                            </div>
+                            <div class="key-system">
+                                <i class="fas fa-download"></i> 
+                                <a href="https://github.com/QuorumHub1/QApiVal/raw/refs/heads/main/ExampleKeySystem2.rar">Example Key System</a>
+                            </div>
+                            <a href="https://github.com/QuorumHub1/QApiVal/raw/refs/heads/main/QuorumAPI.rar" class="download-btn">Download</a>
+                        </div>
+                        
+                        <!-- Bunni Edition -->
+                        <div class="api-card reveal">
+                            <h3><i class="fas fa-ghost"></i> Bunni Edition</h3>
+                            <div class="api-status status-yellow">Status: 🟡</div>
+                            <div class="api-focus">Focus: Ultimate Undetectability</div>
+                            <div class="api-info">
+                                <div><i class="fas fa-chart-bar"></i> <span><strong>UNC Rate:</strong> 100%</span></div>
+                                <div><i class="fas fa-chart-line"></i> <span><strong>sUNC Rate:</strong> 100%</span></div>
+                                <div><i class="fas fa-layer-group"></i> <span><strong>Level:</strong> 8</span></div>
+                                <div><i class="fas fa-key"></i> <span><strong>Key System:</strong> Required</span></div>
+                            </div>
+                            <div class="key-system">
+                                <i class="fas fa-download"></i> 
+                                <a href="https://github.com/QuorumHub1/QApiBun/raw/refs/heads/main/ExampleKeySystem.rar">Example Key System</a>
+                            </div>
+                            <a href="https://github.com/QuorumHub1/QApiBun/raw/refs/heads/main/QuorumAPI.rar" class="download-btn">Download</a>
+                            <div class="warning">
+                                <i class="fas fa-exclamation-triangle"></i> WARNING! Check Tutorial.txt before use.
+                            </div>
+                        </div>
+                        
+                        <!-- Velocity Edition -->
+                        <div class="api-card reveal">
+                            <h3><i class="fas fa-bolt"></i> Velocity Edition</h3>
+                            <div class="api-status status-yellow">Status: 🟡</div>
+                            <div class="api-focus">Focus: Auto-Updating & Reliable</div>
+                            <div class="api-info">
+                                <div><i class="fas fa-chart-bar"></i> <span><strong>UNC Rate:</strong> 99%</span></div>
+                                <div><i class="fas fa-chart-line"></i> <span><strong>sUNC Rate:</strong> 98%</span></div>
+                                <div><i class="fas fa-layer-group"></i> <span><strong>Level:</strong> 8</span></div>
+                                <div><i class="fas fa-sync-alt"></i> <span><strong>Feature:</strong> Auto Update</span></div>
+                            </div>
+                            <a href="https://github.com/QuorumHub1/QuorumAPIv/raw/refs/heads/main/QuorumAPI.rar" class="download-btn">Download</a>
+                            <div class="warning">
+                                <i class="fas fa-exclamation-triangle"></i> WARNING! Check Tutorial.txt before use.
+                            </div>
+                        </div>
+                        
+                        <!-- Byte Forge Edition -->
+                        <div class="api-card reveal">
+                            <h3><i class="fas fa-cogs"></i> Byte Forge Edition</h3>
+                            <div class="api-status status-yellow">Status: 🟡</div>
+                            <div class="api-focus">Focus: Modern Features</div>
+                            <div class="api-info">
+                                <div><i class="fas fa-chart-bar"></i> <span><strong>UNC Rate:</strong> 99%</span></div>
+                                <div><i class="fas fa-chart-line"></i> <span><strong>sUNC Rate:</strong> Error (Unreported)</span></div>
+                                <div><i class="fas fa-layer-group"></i> <span><strong>Level:</strong> 8</span></div>
+                                <div><i class="fas fa-sync-alt"></i> <span><strong>Feature:</strong> Auto Update</span></div>
+                                <div><i class="fas fa-life-ring"></i> <span><strong>Support:</strong> https://dsc.gg/byteforge</span></div>
+                            </div>
+                            <a href="https://github.com/QuorumHub1/QApiBF/raw/refs/heads/main/QuorumAPI.rar" class="download-btn">Download</a>
+                            <div class="warning">
+                                <i class="fas fa-exclamation-triangle"></i> WARNING! Check Tutorial.txt before use.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Вкладка Контакты -->
+        <div class="tab-content" id="contact">
+            <section class="contact-section">
+                <h2 class="section-title">Наши контакты</h2>
+                <p>Присоединяйтесь к нашему Discord-сообществу для получения поддержки, обновлений и общения с другими пользователями.</p>
+                
+                <a href="https://discord.gg/nsFk3EkKfP" class="discord-link reveal">
+                    <i class="fab fa-discord"></i> Наш Discord: https://discord.gg/nsFk3EkKfP
+                </a>
+                
+                <div class="features" style="margin-top: 4rem;">
+                    <div class="feature reveal">
+                        <div class="feature-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>Поддержка</h3>
+                        <p>Получите помощь от нашей команды и сообщества по любым вопросам, связанным с нашими продуктами.</p>
+                    </div>
+                    
+                    <div class="feature reveal">
+                        <div class="feature-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h3>Новости</h3>
+                        <p>Будьте в курсе последних обновлений, новых версий продуктов и важных announcements.</p>
+                    </div>
+                    
+                    <div class="feature reveal">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Сообщество</h3>
+                        <p>Общайтесь с другими пользователями, делитесь опытом и находите единомышленников.</p>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-    
-    <footer>
-        <p>© 2023 GoodInjector. Все права защищены.</p>
-    </footer>
 
     <script>
-        function downloadImage(url, filename) {
-            // В реальном проекте здесь был бы код для скачивания изображения
-            alert(`Изображение "${filename}" будет скачано!`);
+        // Переключение вкладок
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Убираем активный класс у всех вкладок и контента
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Добавляем активный класс к выбранной вкладке
+                tab.classList.add('active');
+                
+                // Показываем соответствующий контент
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Анимация появления элементов при скролле
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
             
-            // Эмуляция скачивания (в реальном проекте нужно использовать fetch и createObjectURL)
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
         }
+        
+        window.addEventListener("scroll", reveal);
+        // Вызываем сразу при загрузке для элементов, которые уже в viewport
+        reveal();
+        
+        // Плавная анимация для кнопок
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.transform = 'translateY(-3px)';
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Перенаправление на соответствующие разделы при нажатии на кнопки
+        document.querySelector('.btn-primary').addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector('[data-tab="products"]').classList.add('active');
+            document.getElementById('products').classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        document.querySelector('.btn-secondary').addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector('[data-tab="api"]').classList.add('active');
+            document.getElementById('api').classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
 </body>
 </html>
